@@ -18,12 +18,14 @@ connection = engine.connect()
 DI = DataToImport()
 DW = DataToDatabase()
 print("TEST.csv")
-DI.importieren("C:\\_Data\\IU_Python-Kurs\\Git_Repos\\Beispiel-Datensaetze\\test.csv")
+''' import und Weiterverarbeitung mit Kind-Klasse '''
+DW.importieren("C:\\_Data\\IU_Python-Kurs\\Git_Repos\\Beispiel-Datensaetze\\test.csv")
 Tablename = extract_tablename("C:\\_Data\\IU_Python-Kurs\\Git_Repos\\Beispiel-Datensaetze\\test.csv")
-DW.create_table(Tablename, DI, connection)
-DW.data_to_table(Tablename, DI, connection)
+DW.create_table(Tablename, DW, connection)
+DW.data_to_table(Tablename, DW, connection)
 del DI
 
+''' import und Weiterverarbeitung mit Eltern-Klasse '''
 DI = DataToImport()
 DI.importieren("C:\\_Data\\IU_Python-Kurs\\Git_Repos\\Beispiel-Datensaetze\\train.csv")
 Tablename = extract_tablename("C:\\_Data\\IU_Python-Kurs\\Git_Repos\\Beispiel-Datensaetze\\train.csv")
