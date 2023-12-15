@@ -33,10 +33,12 @@ class DataToDatabase(DataToImport):
 
     def create_table_id4(self, tablename, di, connection):
         ####### text fuer Create bauen (x float, y0 float, y1 float, ... )
-        text_create = "(" + di.x[0] + " float, "
-        for i in range(1, di.Anzahl_Spalten-2):
-            text_create += di.y[1][i][0] + " float, "
-        text_create += di.y[1][3][0] + " string)"
+        text_create = "(" + di.y[1][0][0] + " float, "
+        for i in range(1, di.Anzahl_Spalten):
+            text_create += di.y[i][3][2] + " float, "
+        text_create = text_create[:-2]
+        text_create += ")"
+        # text_create += di.y[1][3][0] + " string)"
 
         rowsintable = 0
 
@@ -84,24 +86,29 @@ class DataToDatabase(DataToImport):
 
         if rowsintable == 0:
             ####### TEXT_INSERT bauen (x, y1, y2, ...)
-            text_insert = "(" + di.x[0] + ", "
-            for i in range(di.Anzahl_Spalten - 2):
-                text_insert += di.y[1][i + 1][0] + ", "
+            text_insert = "(" + di.y[1][0][0] + ", "    # 'x'
+            # for i in range(di.Anzahl_Spalten - 2):
+            for i in range(1, di.Anzahl_Spalten):      # 'ynr' Nummer der Funktion, z.B. y36
+                text_insert += di.y[i][1][0] + ", "
             text_insert = text_insert[:-2]
             text_insert += ")"
 
             ####### TEXT VALUES bauen VARIABEL  (:x, :y1, :y2, ...)
-            text_values = "(:" + di.x[0] + ", :"
-            for i in range(di.Anzahl_Spalten - 2):
-                text_values += di.y[1][i + 1][0] + ", :"
+            text_values = "(:" + di.y[1][0][0] + ", :"
+            # for i in range(di.Anzahl_Spalten - 2):
+            for i in range(1, di.Anzahl_Spalten):
+                text_values += di.y[i][1][0] + ", :"
             text_values = text_values[:-3]
             text_values += ")"
 
-            for j in range(1, len(di.x)):  # j steht für die Zeilen
-                dict2 = {di.x[0]: di.x[j]}
-                for i in range(1, di.Anzahl_Spalten-1):  # i steht für die Spalten
-                    dict2.update({di.y[1][i][0]: di.y[1][i][j]})  # dictionary bauen
-                connection.execute(sql.text("INSERT INTO " + tablename + " " + text_insert + " VALUES " + text_values), [dict2])
+            lendix = len(di.x[0])
+            dix0 = di.x[0][0]
+            dixj = di.x[0][1]
+            for j in range(1, len(di.y[1][0])):  # j steht für die Zeilen
+                dict2 = {di.y[1][0][0]: di.y[1][0][j]}      # 'x: x-Wert'
+                for i in range(1, di.Anzahl_Spalten):  # i steht für die Spalten; 4 Spalten für die 4 idealen Funktionen -
+                    dict2.update({di.y[i][1][0]: di.y[i][1][j]})  # dictionary zeilenweise bauen
+                connection.execute(sql.text("INSERT INTO " + tablename + " " + text_insert + " VALUES " + text_values), [dict2])  # an Datenbank senden
             connection.commit()
         else:
             print("Tabelle bereits befüllt")

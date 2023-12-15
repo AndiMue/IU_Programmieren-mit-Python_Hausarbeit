@@ -1,4 +1,5 @@
 # class for importing data from csv
+import os
 
 class DataToImport:
     def __init__(self):
@@ -7,6 +8,11 @@ class DataToImport:
         self.x = []
         self.y = []  # []
         self.Anzahl_Spalten = 0  # Zaehler fuer die gesamte Anzahl der Spalten
+
+    def extract_tablename(self, path):
+        result = os.path.basename(path)
+        result = result[:-4]
+        return result
 
     def separate_lines(self, f_content, spalten):
         """
@@ -88,5 +94,26 @@ class DataToImport:
         except:
             print("EXCEPTION importieren, Datei kann nicht geöffnet werden")
 
+        # test Daten nach x sortieren
+        Tablename = self.extract_tablename(data_path)
+        if Tablename == 'test':
+            i = 0
+            while i < len(self.file_content)-1:
+                try:
+                    self.file_content[i][0] = float(self.file_content[i][0])
+                    self.file_content[i][1] = float(self.file_content[i][1])
+                except:
+                    print(self.file_content[i])
+                    del self.file_content[i]
+                    print("konnte string nicht in float konvertieren -> wurde gelöscht")
+                    i -= 1
+                    pass
+
+                i += 1
+            del self.file_content[i]
+            self.file_content.sort()
+            pass
+
         self.x, self.y = self.separate_lines(self.file_content, self.Anzahl_Spalten)
          # print("seperate DONE")
+
