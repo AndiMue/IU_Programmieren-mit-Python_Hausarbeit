@@ -10,6 +10,11 @@ class DataToImport:
         self.Anzahl_Spalten = 0  # Zaehler fuer die gesamte Anzahl der Spalten
 
     def extract_tablename(self, path):
+        """
+        Funktion extrahiert den Dateinamen aus demDateipfad
+        :param path: Dateipfad 
+        :return: result: Dateiname
+        """
         result = os.path.basename(path)
         result = result[:-4]
         return result
@@ -32,13 +37,13 @@ class DataToImport:
             y.append([])
 
         # print("Laenge file_content: ", len(f_content))
-        i = 0     # Laufindex muss zurueck gesetzt werden
+        i = 0     # Laufindex muss zurueck gesetzt werden, von for Schleife
         # solange das Ende des Inhalts nicht erreicht ist lese ein
         while i < len(f_content):
             # x einlesen, erster Wert muss 'x' sein
             try:
                 if i > 0:
-                    x.append(float(f_content[i][0]))
+                    x.append(float(f_content[i][0])) # erste Stelle ist ein string, kein float
                 else:
                     x.append(f_content[i][0])
                 b_x_valid = True
@@ -71,7 +76,6 @@ class DataToImport:
             b_x_valid = False   # Gueltigkeitswert ruecksetzen
             i += 1
 
-        # print("DONE x and y")
         return x, y
 
     def importieren(self, data_path):
@@ -89,13 +93,12 @@ class DataToImport:
             # Anzahl Spalten der Daten zaehlen
             for self.Anzahl_Spalten in range(len(self.file_content[0])):
                 self.Anzahl_Spalten += 1
-            # print("Spalten: ", self.Anzahl_Spalten)
-            # print("Importieren Done")
         except:
             print("EXCEPTION importieren, Datei kann nicht geöffnet werden")
 
         # test Daten nach x sortieren
         Tablename = self.extract_tablename(data_path)
+        # Tabelle test.csv muss gesondert behandelt werden. Daten werden nach x sortiert.
         if Tablename == 'test':
             i = 0
             while i < len(self.file_content)-1:
@@ -107,13 +110,17 @@ class DataToImport:
                     del self.file_content[i]
                     print("konnte string nicht in float konvertieren -> wurde gelöscht")
                     i -= 1
-                    pass
 
                 i += 1
             del self.file_content[i]
+            # Daten werden nach x sortiert.
             self.file_content.sort()
-            pass
 
-        self.x, self.y = self.separate_lines(self.file_content, self.Anzahl_Spalten)
-         # print("seperate DONE")
-
+        if self.Anzahl_Spalten > 0:
+            self.x, self.y = self.separate_lines(self.file_content, self.Anzahl_Spalten)
+        else:
+            self.x = []
+            self.y = []
+        
+        
+        print("importieren DONE")
