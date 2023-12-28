@@ -60,4 +60,5 @@ test_data_to_DB.y[0] = test_data_to_DB.x
 train_data.y[0] = train_data.x
 ShowData.show_id4_plus_test(ideal_4_data, test_data_to_DB, train_data, 'x', 'y', 'ideal 4 vs test Data')
 
+print("Saved plotts to folder")
 print("DONE")
