@@ -91,7 +91,7 @@ class lookupthings():
 
                         except NoMatchFoundError:
                             print(NoMatchFoundError().message)
-                            print("ERROOOOOORRRR")
+                            
                         pass
                 else:
                     # print("else Pfad")

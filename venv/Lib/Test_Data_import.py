@@ -31,28 +31,7 @@ class UnitTestImport(unittest.TestCase):
         self.assertEqual(result2, testresult_2, "Result 2 OK")
         print("Finish Test separieren")
 
-'''
-    def test_importieren(self):
-        # Datei einlesen
-        self.Anzahl_Spalten = 5
-        file = "unittest.csv"
-        testresult_0 = [['x', 'y1', 'y2', 'y3', 'y4'], [-20.0, 100, -19.7, 0.3, 11.7], [-19.9, 99, -19.7, 0.6, 11.7], [-19.8, 98, -19.5, 0.1, 11.4], [-19.7, 97, -19.8, 0.7, 11.8], [-19.6, 96, -19.8, 0.2, 11.8]]
-        testresult_1 = ['x', -20.0, -19.9, -19.8, -19.7, -19.6]
-        testresult_2 = [[], ['y1', 100, 99, 98, 97, 96],['y2', -19.7, -19.7, -19.5, -19.8, -19.8], ['y3', 0.3, 0.6, 0.1, 0.7, 0.2], ['y4', 11.7, 11.7, 11.4, 11.8, 11.8]]
-        result = DataToImport.importieren(self, file)
 
-        pass
-'''
-
-    #def extract_tablename(self, path):
-    #    """
-    #    Funktion extrahiert den Dateinamen aus demDateipfad
-    #    :param path: Dateipfad
-    #    :return: result: Dateiname
-    #    """
-    #    result = os.path.basename(path)
-    #    result = result[:-4]
-    #    return result
 
 if __name__ == '__main__':
     unittest.main()
