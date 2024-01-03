@@ -1,4 +1,5 @@
 # Hausarbeit IU Akademie Programmieren mit Python
+# Andreas Müller
 
 # Benötigte Importe
 from Lib.Data_import import DataToImport
